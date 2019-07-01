@@ -3,13 +3,14 @@ package dev.mamkin.hometask2.models
 import java.util.*
 
 class TextMessage(
-    id: String,
-    from: User?,
-    chat: Chat,
-    isIncoming: Boolean = false,
-    date: Date = Date()
-): BaseMessage() {
+        id: String,
+        from: User?,
+        chat: Chat,
+        isIncoming: Boolean = false,
+        date: Date = Date(),
+        var text: String
+): BaseMessage(id, from, chat, isIncoming, date) {
     override fun formatMessage(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return "${from?.firstName} ${if (isIncoming) "получил" else "отправил"} сообщение \"$text\""
     }
 }

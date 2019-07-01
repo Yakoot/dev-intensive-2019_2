@@ -1,5 +1,6 @@
 package dev.mamkin.hometask2.models
 
+import dev.mamkin.hometask2.Utils.Utils
 import java.util.*
 
 data class User(
@@ -17,8 +18,8 @@ data class User(
         fun makeUser(fullName: String?): User {
             lastId++
 
-            val parts: List<String>? = fullName?.split(" ")
-            return User(id = "$lastId", firstName = parts?.getOrNull(0), lastName = parts?.getOrNull(1), avatar = "avatar url")
+            val name = Utils.parseFullname(fullName)
+            return User(id = "$lastId", firstName = name.first, lastName = name.second, avatar = "avatar url")
         }
     }
 }
