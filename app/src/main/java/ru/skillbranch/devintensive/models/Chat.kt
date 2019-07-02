@@ -1,4 +1,4 @@
-package dev.mamkin.hometask2.models
+package ru.skillbranch.devintensive.models
 
 class Chat (
     id: String,

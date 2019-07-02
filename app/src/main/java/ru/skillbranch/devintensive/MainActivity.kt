@@ -1,4 +1,4 @@
-package dev.mamkin.hometask2
+package ru.skillbranch.devintensive
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
