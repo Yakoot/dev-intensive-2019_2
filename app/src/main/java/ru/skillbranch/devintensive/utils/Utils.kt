@@ -1,6 +1,6 @@
 package ru.skillbranch.devintensive.utils
 
-val dictionary: Map<String, String> = mapOf(
+val dictionary: MutableMap<String, String> = mutableMapOf(
         "а" to "a",
         "б" to "b",
         "в" to "v",
@@ -56,15 +56,14 @@ object Utils {
     }
 
     fun transliteration(payload: String, divider: String = " "): String {
-        val words = payload.toLowerCase().trim().split(" ")
-        var transWords = ArrayList<String>()
-        words.forEach { word ->
-            var transword = ""
-            word.forEach { letter: Char ->
-                transword += if (dictionary.containsKey(letter.toString())) dictionary.get(letter.toString()) else letter
-            }
-            transWords.add(transword.capitalize())
+        val dict : MutableMap<String, String> = dictionary
+        dict[" "] = divider
+        var newStr = ""
+        payload.forEach { letter: Char ->
+            val lowerLetter = letter.toLowerCase()
+            val newLetter = if (dict.containsKey(lowerLetter.toString())) dict[lowerLetter.toString()] else lowerLetter
+            newStr += if (letter.isUpperCase()) newLetter.toString().toUpperCase() else newLetter
         }
-        return transWords.joinToString(divider)
+        return newStr
     }
 }
