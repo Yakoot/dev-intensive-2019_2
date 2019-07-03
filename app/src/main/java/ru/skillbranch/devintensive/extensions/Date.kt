@@ -58,10 +58,9 @@ fun Date.humanizeDiff(): String {
     periodDate = Pair(Date().add(45, TimeUnits.MINUTE), Date().add(-45, TimeUnits.MINUTE))
     if (this.before(periodDate.first) && this.after(periodDate.second)) {
         val duration = TimeUnit.MINUTES.convert((Date().time - this.time), TimeUnit.MILLISECONDS).toInt()
-        val plurals =  getPlurals(abs(duration), Triple("минуту", "минуты", "минут"))
         return when {
-            duration > 0 -> "$duration $plurals назад"
-            else -> "через ${abs(duration)} $plurals"
+            duration > 0 -> "${TimeUnits.MINUTE.plural(duration)} назад"
+            else -> "через ${TimeUnits.MINUTE.plural(duration)}"
         }
     }
 
@@ -78,10 +77,9 @@ fun Date.humanizeDiff(): String {
     periodDate = Pair(Date().add(22, TimeUnits.HOUR), Date().add(-22, TimeUnits.HOUR))
     if (this.before(periodDate.first) && this.after(periodDate.second)) {
         val duration = TimeUnit.HOURS.convert((Date().time - this.time), TimeUnit.MILLISECONDS).toInt()
-        val plurals =  getPlurals(abs(duration), Triple("час", "часа", "часов"))
         return when {
-            duration > 0 -> "$duration $plurals назад"
-            else -> "через ${abs(duration)} $plurals"
+            duration > 0 -> "${TimeUnits.HOUR.plural(duration)} назад"
+            else -> "через ${TimeUnits.HOUR.plural(duration)}"
         }
     }
 
@@ -98,10 +96,9 @@ fun Date.humanizeDiff(): String {
     periodDate = Pair(Date().add(360, TimeUnits.DAY), Date().add(-360, TimeUnits.DAY))
     if (this.before(periodDate.first) && this.after(periodDate.second)) {
         val duration = TimeUnit.DAYS.convert((Date().time - this.time), TimeUnit.MILLISECONDS).toInt()
-        val plurals =  getPlurals(abs(duration), Triple("день", "дня", "дней"))
         return when {
-            duration > 0 -> "$duration $plurals назад"
-            else -> "через ${abs(duration)} $plurals"
+            duration > 0 -> "${TimeUnits.DAY.plural(duration)} назад"
+            else -> "через ${TimeUnits.DAY.plural(duration)}"
         }
     }
 
@@ -121,8 +118,30 @@ fun getPlurals(value: Int, dict: Triple<String, String, String>): String {
 }
 
 enum class TimeUnits {
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+    SECOND {
+        override fun plural(value: Int): String {
+            val count = abs(value)
+            return "$count ${getPlurals(count, Triple("секунду", "секунды", "секунд"))}"
+        }
+    },
+    MINUTE {
+        override fun plural(value: Int): String {
+            val count = abs(value)
+            return "$count ${getPlurals(count, Triple("минуту", "минуты", "минут"))}"
+        }
+    },
+    HOUR {
+        override fun plural(value: Int): String {
+            val count = abs(value)
+            return "$count ${getPlurals(count, Triple("час", "часа", "часов"))}"
+        }
+    },
+    DAY {
+        override fun plural(value: Int): String {
+            val count = abs(value)
+            return "$count ${getPlurals(count, Triple("день", "дня", "дней"))}"
+        }
+    };
+    abstract fun plural(value: Int): String
+
 }
