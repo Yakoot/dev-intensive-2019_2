@@ -4,7 +4,7 @@ package ru.skillbranch.devintensive.extensions
 fun String.truncate(lastIndex: Int = 16): String {
     val truncatedStr = this.substring(0, lastIndex)
     val trimmedStr = truncatedStr.trim()
-    return trimmedStr + if (trimmedStr.length == truncatedStr.length) "..." else ""
+    return trimmedStr + if (this.length != truncatedStr.length) "..." else ""
 }
 
 fun String.stripHtml(): String {
